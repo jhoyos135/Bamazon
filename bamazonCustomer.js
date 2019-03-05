@@ -47,10 +47,12 @@ class Bamazon {
             data.item = parseInt(data.item);
             if(isNaN(data.item) === false) {
                 let item = data.item;
+                // callback functions
                 this.initQuant(inquirer, item)
 
             } else {
                 console.log('Please enter a number')
+                // callback functions
                 this.initInq(inquirer);
             }
         })
@@ -66,13 +68,62 @@ class Bamazon {
             data.count = parseInt(data.count);
             if(isNaN(data.count) === false) {
                 let quantity = parseInt(data.count);
-                console.log(quantity)
+                // callback functions
+                this.confirmOrder(inquirer, item, quantity);
             } else {
                 console.log('Please enter a number');
+                // callback functions
                 this.initQuant(inquirer, item)
             }
         })
-    }
+    };
+
+    confirmOrder(inquirer, item, quantity) {
+        let query = 'SELECT product_name, price, stock_quantity FROM products WHERE ?';
+        connection.query(query, {item_id: item}, (err, res) => {
+            let cost = quantity * res[0].price;
+            let response = '';
+            inquirer.prompt({
+                name: 'confirmOrder',
+                type: 'confirm',
+                message: `Please confirm you want to purchase ${quantity} ${res[0].product_name} for $${cost}`
+            }).then((answer) => {
+                if(answer.confirmOrder === true) {
+                    if(quantity <= res[0].stock_quantity) {
+                        response = '\n we are processing your order...';
+                        let quantityNew = res[0].stock_quantity - quantity;
+                        let productName = res[0].product_name;
+                        // callback functions
+                        this.createOrder(item, productName, quantity, cost, quantityNew);
+                        this.updateDb(item, quantityNew);
+                    } else {
+                        response = `Sorry but you have requested more ${res[0].product_name} than we have available.`;
+                        this.stopDb;
+                    }
+                    console.log(response);
+                } else {
+                console.log('\nsee your later');
+                // callback functions
+                this.stopDb();
+                }
+            })
+        })
+    };
+
+    createOrder(item, productName, quantity, cost, quantityNew) {
+
+    };
+
+    updateDb(item, quantityNew) {
+
+    };
+
+    stopDb() {
+        connection.end(err => {
+            if(err){throw err;}
+            console.log('Disconnected from Database \n');
+        })
+    };
     
 };
 
