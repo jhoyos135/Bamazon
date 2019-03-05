@@ -23,3 +23,13 @@ VALUES
 ('Hoodie', 'Clothing', 50, 20),
 ('Shoes', 'Clothing', 40, 45),
 ('Puppies', 'Pets', 50, 450);
+
+CREATE TABLE orders (
+  order_id INT AUTO_INCREMENT NOT NULL,
+  item_id INT NOT NULL,
+  product_name VARCHAR(100) NOT NULL,
+  quantity INT NOT NULL,
+  total_price INT NOT NULL,
+  remaining_stock INT NOT NULL,
+  PRIMARY KEY (order_id)
+);

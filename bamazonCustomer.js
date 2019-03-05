@@ -33,7 +33,7 @@ class Bamazon {
                    data.item_id, data.product_name, data.department_name, data.price, data.stock_quantity
                ]);
            };
-           console.log(table.create.prodList.toString() + "\n\n\n\n")
+           console.log(table.create.prodList.toString() + "\n")
         
         })
     };
@@ -111,7 +111,29 @@ class Bamazon {
     };
 
     createOrder(item, productName, quantity, cost, quantityNew) {
-
+        connection.query(
+            `INSERT INTO orders SET ?`, {
+                item_id: item,
+                product_name: productName,
+                quantity: quantity,
+                total_price:cost,
+                remaining_stock: quantityNew
+            },
+            (err) => {
+                if(err) {throw err;}
+                console.log('Your order was made');
+                connection.query('SELECT * FROM orders', (err, res) => {
+                    if(err) {throw err;}
+                    for(let i in res) {
+                        let data = res[i];
+                        table.create.orders.push([
+                            data.order_id, data.item_id, data.product_name, data.quantity, data.total_price, data.remaining_stock
+                        ]);
+                    }
+                    console.log(table.create.orders.toString() + '\n');
+                })
+            }
+        )
     };
 
     updateDb(item, quantityNew) {
