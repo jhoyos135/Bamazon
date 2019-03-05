@@ -137,7 +137,16 @@ class Bamazon {
     };
 
     updateDb(item, quantityNew) {
-
+        connection.query(
+            `UPDATE products SET ? WHERE ?`, [
+                {stock_quantity: quantityNew},
+                {item_id: item}
+            ], (err) => {
+                if(err) {throw err;}
+                console.log('Database has been updated.');
+                this.stopDb()
+            }
+        )
     };
 
     stopDb() {
