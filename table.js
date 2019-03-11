@@ -6,7 +6,6 @@ exports.create = {
             'top': '═',
             'top-mid': '╤',
             'top-left': '╔',
-            'top-right': '╗',
             'bottom': '═',
             'bottom-mid': '╧',
             'bottom-left': '╚',
@@ -62,7 +61,7 @@ exports.create = {
             'middle': '│'
         },
         head: ['Order Id','Item Id', 'Product Name', 'Quantity', 'Total Price', 'Remaining'],
-        colWidths: [10,10, 30, 10, 15, 15]
+        colWidths: [10,10, 20, 10, 15, 15]
     }),
     inventoryLog: new Table({
         chars: {

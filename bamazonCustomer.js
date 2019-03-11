@@ -27,13 +27,15 @@ class Bamazon {
     displayProducts() {
         connection.query(`SELECT * FROM products`,
         (err, res) => {
+            if(err) {throw err;}
+
            for(let i in res) {
                let data = res[i];
                table.create.prodList.push([
                    data.item_id, data.product_name, data.department_name, data.price, data.stock_quantity
                ]);
            };
-           console.log(table.create.prodList.toString() + "\n")
+           console.log( "\n" + table.create.prodList.toString() + "\n")
         
         })
     };
@@ -41,7 +43,7 @@ class Bamazon {
     initInq(inquirer) {
         inquirer.prompt([{
             type: 'choices',
-            message: 'which product would you like to purchase? please enter an item id',
+            message: 'Which product would you like to purchase? please enter an item id \n\n',
             name: 'item'
         }]).then((data) => {
             data.item = parseInt(data.item);
@@ -61,7 +63,7 @@ class Bamazon {
     initQuant(inquirer, item) {
         inquirer.prompt([{
             type: 'input',
-            message: 'How many would you like to purchase? Please enter a number \n',
+            message: 'How many would you like to purchase? Please enter a number \n\n',
             name: 'count'
 
         }]).then((data) => {
@@ -90,7 +92,7 @@ class Bamazon {
             }).then((answer) => {
                 if(answer.confirmOrder === true) {
                     if(quantity <= res[0].stock_quantity) {
-                        response = '\n we are processing your order...';
+                        response = '\nWe are processing your order... \n1';
                         let quantityNew = res[0].stock_quantity - quantity;
                         let productName = res[0].product_name;
                         // callback functions
@@ -130,7 +132,7 @@ class Bamazon {
                             data.order_id, data.item_id, data.product_name, data.quantity, data.total_price, data.remaining_stock
                         ]);
                     }
-                    console.log(table.create.orders.toString() + '\n');
+                    console.log('\n' + table.create.orders.toString() + '\n');
                 })
             }
         )
@@ -143,7 +145,7 @@ class Bamazon {
                 {item_id: item}
             ], (err) => {
                 if(err) {throw err;}
-                console.log('Database has been updated.');
+                console.log('Database has been updated. \n');
                 this.stopDb()
             }
         )
