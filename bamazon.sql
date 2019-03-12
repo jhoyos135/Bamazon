@@ -33,3 +33,13 @@ CREATE TABLE orders (
   remaining_stock INT NOT NULL,
   PRIMARY KEY (order_id)
 );
+
+CREATE TABLE inventory (
+  log_id INT(11) AUTO_INCREMENT NOT NULL,
+  item_id INT(11) NOT NULL,
+  product_name VARCHAR(100) NOT NULL,
+  current_stock INT(11) NOT NULL,
+  quantity_added INT(11) NOT NULL,
+  updated_stock INT(11) NOT NULL,
+  PRIMARY KEY (log_id)
+);
