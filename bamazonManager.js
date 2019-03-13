@@ -43,7 +43,6 @@ class Bamazon {
                 case 'Add New Product':
                 this.addProduct(inquirer);
                 break;
-
                 default:
                 this.stopDb();
             }

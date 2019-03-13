@@ -1,1 +1,5 @@
-# Bamazon Mysql Application
+# Bamazon Application
+
+# Technologies
+node.js\
+MySQL
